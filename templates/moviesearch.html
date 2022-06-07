@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>To-Watch Recommender</title>
+  <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-light bg-dark">
+    <form class="justify-content-start col-lg-12" action="/" method="get">
+      <button class="btn btn-outline-danger me-2 col-lg-2" type="submit">Home Page</button>
+    </form>
+  </nav>
+
+  <div>
+    <img class="background-img" src="https://wallpaperaccess.com/full/3988284.jpg" alt="zbi">
+  </div>
+
+  <div class="overlay">
+  </div>
+
+  <div class="movie-form">
+  </div>
+  <div class="container-fluid title-container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="title">Please Enter Your Fav Movies</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="btn-div col-lg-12 movie-div">
+        <div class="col-lg-3 div-inline">
+          <input class="movie-field" type="text" name="movie1" id="movie1" oninput="handleChange(this)" onfocus="handleFocus(this,true)" onfocusout="handleFocus(this,false)">
+          <div class="dropdown">
+            <ul id="suggest-list" class="suggest-list" style="padding:0">
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-3 div-inline">
+          <input class="movie-field" type="text" name="movie2" id="movie2" oninput="handleChange(this)" onfocus="handleFocus(this,true)" onfocusout="handleFocus(this,false)">
+          <div class="dropdown">
+            <ul id="suggest-list" class="suggest-list" style="padding:0">
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-3 div-inline">
+          <input class="movie-field" type="text" name="movie3" id="movie3" oninput="handleChange(this)" onfocus="handleFocus(this,true)" onfocusout="handleFocus(this,false)">
+          <div class="dropdown">
+            <ul id="suggest-list"  class="suggest-list" style="padding:0">
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+
+    </div>
+
+    <div class="row">
+      <div class="btn-div col-lg-12">
+        <form class="" action="index.html" method="post">
+          <button class="btn btn-outline-danger search-btn" type="button" id="Search" name="button" disabled onclick="TripleSearch()">Search</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script src="{{ url_for('static', path='/index.js') }}" charset="utf-8"></script>
+</body>
+
+</html>

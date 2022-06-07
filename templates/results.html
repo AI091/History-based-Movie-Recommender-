@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>To-Watch Recommender</title>
+  <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-light bg-dark">
+    <form class="justify-content-start col-lg-12" action="/">
+      <button class="btn btn-outline-danger me-2 col-lg-2" type="submit">Home Page</button>
+    </form>
+  </nav>
+
+  <div>
+    <img class="background-img" src="https://wallpaperaccess.com/full/3988284.jpg" alt="zbi">
+  </div>
+
+  <div class="overlay">
+  </div>
+
+  <div class="movie-form-2">
+  </div>
+
+  <div class="container-fluid title-container">
+    <div class="row">
+      <div class="col-lg-2 btn-div">
+        <div class="mov" onclick="GetMovie(this)">
+          <img src="{{data[0]['poster']}}" alt="">
+          <h3 class="movie-name">{{data[0]['title']}}</h3>
+          <p class="movie-prop">{{data[0]['rating']}}</p>
+          <p class="movie-prop">{{data[0]['genres']}}</p>
+        </div>
+      </div>
+
+      <div class="col-lg-2 btn-div">
+        <div class="mov" onclick="GetMovie(this)">
+          <img src="{{data[1]['poster']}}" alt="">
+          <h3 class="movie-name">{{data[1]['title']}}</h3>
+          <p class="movie-prop">{{data[1]['rating']}}</p>
+          <p class="movie-prop">{{data[1]['genres']}}</p>
+        </div>
+      </div>
+
+      <div class="col-lg-2 btn-div">
+        <div class="mov" onclick="GetMovie(this)">
+          <img src="{{data[2]['poster']}}" alt="">
+          <h3 class="movie-name">{{data[2]['title']}}</h3>
+          <p class="movie-prop">{{data[2]['rating']}}</p>
+          <p class="movie-prop">{{data[2]['genres']}}</p>
+        </div>
+      </div>
+
+      <div class="col-lg-2 btn-div">
+        <div class="mov" onclick="GetMovie(this)">
+          <img src="{{data[3]['poster']}}" alt="">
+          <h3 class="movie-name">{{data[3]['title']}}</h3>
+          <p class="movie-prop">{{data[3]['rating']}}</p>
+          <p class="movie-prop">{{data[3]['genres']}}</p>
+        </div>
+      </div>
+
+      <div class="col-lg-2 btn-div">
+        <div class="mov" onclick="GetMovie(this)">
+          <img src="{{data[4]['poster']}}" alt="">
+          <h3 class="movie-name">{{data[4]['title']}}</h3>
+          <p class="movie-prop">{{data[4]['rating']}}</p>
+          <p class="movie-prop">{{data[4]['genres']}}</p>
+        </div>
+      </div>
+
+      <div class="col-lg-2 btn-div ">
+        <div class="mov" onclick="GetMovie(this)">
+          <img src="{{data[5]['poster']}}" alt="">
+          <h3 class="movie-name">{{data[5]['title']}}</h3>
+          <p class="movie-prop">{{data[5]['rating']}}</p>
+          <p class="movie-prop">{{data[5]['genres']}}</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+
+  <script src="{{ url_for('static', path='/index.js') }}" charset="utf-8"></script>
+</body>
+
+</html>
