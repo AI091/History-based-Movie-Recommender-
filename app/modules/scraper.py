@@ -56,61 +56,104 @@ class MovieScrap:
         Args:
             link ([string]): [link of a movie]
         """        
-        try:
-            res=res=requests.get(link).content
-            soup = BeautifulSoup(res, 'html5lib')
-            title=None
-            directors=[]
-            writers=[]
-            cast=[]
-            languages=[]
-            series=None
-            length=None
-            age=None
-            rating=None
-            number=None
-            year=None
-            li=soup.findAll('li')
-            rating=soup.find("span",attrs={"class":"AggregateRatingButton__RatingScore-sc-1ll29m0-1 iTLWoV"}).text ##use try except some movies dont have ratings
-            number=soup.find("div",attrs={"class":"AggregateRatingButton__TotalRatingAmount-sc-1ll29m0-3 jkCVKJ"}).text #use try except some movies dont have ratings 
-            title=soup.find("h1").text
-            year=soup.find("li",attrs={'data-testid':"title-details-releasedate"}).text.split('(')[-2]
-            year=''.join(year).split()[-1]
+        res=res=requests.get(link).content
+        soup = BeautifulSoup(res, 'html5lib')
+        
+        movie_data=dict()
+        
+        try :
+            movie_data['rating']=soup.find("span",attrs={"class":"AggregateRatingButton__RatingScore-sc-1ll29m0-1 iTLWoV"}).text ##use try except some movies dont have ratings
+        except AttributeError :
+            movie_data['rating'] = None 
+       
+        try : 
+            movie_data['number']=soup.find("div",attrs={"class":"AggregateRatingButton__TotalRatingAmount-sc-1ll29m0-3 jkCVKJ"}).text #use try except some movies dont have ratings 
+        except AttributeError :
+            movie_data['number']=None
+
+        try : 
+            movie_data['title']=soup.find("h1").text
+        
+        except AttributeError :
+            movie_data['title']=None
+
+        try :
+            movie_data['year']=soup.find("li",attrs={'data-testid':"title-details-releasedate"}).text.split('(')[-2]
+            movie_data['year']=''.join(movie_data['year']).split()[-1]
+        
+        except AttributeError :
+            movie_data['year']=None
+
+        
+        try :
             lang=soup.find('li',attrs={'data-testid':"title-details-languages"})
+            languages=[]
+
             for i in lang.div.ul:
                 languages.append(i.text)
+            
+            movie_data['languages']= languages
+        except AttributeError: 
+            movie_data['languages']= None
+
+
+        try : 
             block=soup.find('ul',attrs={'data-testid':'hero-title-block__metadata'})
             lst=block.findAll('li')
+            
             if len(block)==3:
-                age=lst[1].span.text
-                length=lst[2].text
-                series=False
+                movie_data['age_group']=lst[1].span.text
+                movie_data['length']=lst[2].text
+                movie_data['series']=False
             elif len(block)==4:
-                series=True
-                age=lst[2].span.text
-                length=lst[3].text
-            for i in li:
+                movie_data['series']=True
+                movie_data['age_group']=lst[2].span.text
+                movie_data['length']=lst[3].text
+        except AttributeError: 
+            movie_data['age_group']= None
+            movie_data['length']= None
+            movie_data['series']= None
+
+
+        try: 
+            useful_list=soup.findAll('li')
+            
+            for i in useful_list:
                 if(i.span ):
                     if(i.span.text=='Directors' or i.span.text=='Director'):
                         directors=i.findAll('a')
                         for i in range (len(directors)):
                             directors[i]=directors[i].text
+                        movie_data['directors']= directors
                     elif(i.span.text=='Writers' or i.span.text=='Writer'):
                         writers=i.findAll('a')[:3]
                         for i in range (len(writers)):
                             writers[i]=writers[i].text
+                        movie_data['writers']=writers
+
             cast=soup.findAll('a',attrs={'data-testid':'title-cast-item__actor'})[:3]
             genres=soup.findAll("span",attrs={"class":"ipc-chip__text"})[:3]
             for i in range(len(genres)):
                 genres[i]=genres[i].text
+            movie_data['genres']=genres
             for i in range (len(cast)):
                 cast[i]=cast[i].text
-            poster=soup.find("img",attrs={"class":"ipc-image"})["src"]
-            movie_data={'title':title,'rating':rating,'number':number,'directors':directors,'writers':writers,'cast':cast,'languages':languages,'genres':genres,'age_group':age,'series':series,'length':length,'year':year,"poster": poster}
-            self.dataset.append(movie_data)
-            return
-        except AttributeError :
-            return 
+            movie_data['cast']=cast
+
+            movie_data['poster']=soup.find("img",attrs={"class":"ipc-image"})["src"]
+
+        except AttributeError : 
+            movie_data['directors']= None
+            movie_data['writers']= None
+            movie_data['genres']=None
+            movie_data['cast']=None
+            movie_data['poster']=None
+
+        
+
+        self.dataset.append(movie_data)
+        return
+    
     
     def scrape(self):
         """[the scraping function that puts it all together , scrapes the 
@@ -135,7 +178,14 @@ class MovieScrap:
             for page in pages:
                 self.parse_page(page)
         print("movies links reached")
+
+        counter = 0 
+        n = len(self.movie_links)
+
+
         for movie in self.movie_links:
             self.parse_movie(movie)
+            print (f"finished movie {counter} from {n}")
+            counter+=1 
         print (self.dataset)
         return self.dataset
